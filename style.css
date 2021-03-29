@@ -1,0 +1,23 @@
+* {
+    box-sizing:border-box;
+}
+
+header {
+    text-align: center;
+    margin:80px;
+}
+
+.question {
+    display:flex;
+    flex-direction: column;
+    margin:0 auto;
+    width:60%;
+    justify-content: center;
+    align-items: center;
+}
+
+.second {
+    display:flex;
+    justify-content: center;
+    margin: 60px auto;
+}
