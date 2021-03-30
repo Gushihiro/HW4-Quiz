@@ -22,14 +22,19 @@ section {
     width:60%;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 .answer {
     margin:20px;
 }
 
-.second {
+.button {
     display:flex;
     justify-content: center;
     margin: 60px auto;
+}
+
+#time {
+    text-align:center;
 }

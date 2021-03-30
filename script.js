@@ -1,6 +1,7 @@
 var currentQuestion = document.querySelector(".question");
 var startQuiz = document.querySelector("#start");
-var emptyArray = [""]
+var timeEl = document.querySelector("#time");
+var timeLeft = 120;
 
 
 var questionsArray = [
@@ -54,12 +55,27 @@ var answer3El = document.querySelector(".answer3");
 var answer4El = document.querySelector(".answer4");
 var answerButtons = document.querySelectorAll(".answer")
 
+
+
+
 function displayQuestion() {
     questionEl.textContent = questionsArray[currentIndex].question
     answer1El.textContent = questionsArray[currentIndex].answer1
     answer2El.textContent = questionsArray[currentIndex].answer2
     answer3El.textContent = questionsArray[currentIndex].answer3
     answer4El.textContent = questionsArray[currentIndex].answer4
+
+    if (questionsArray[currentIndex] === 4 && userGuess === questionsArray[currentIndex].correctAnswer) {
+        alert("Congratulations, you got every question right!");
+        clearInterval(timerInterval);
+        hide(questionEl);
+        hide(answer1El);
+        hide(answer2El);
+        hide(answer3El);
+        hide(answer4El);
+        hide(timeEl);
+        currentIndex = 0;
+    }
 }
 
 function show(element) {
@@ -70,6 +86,26 @@ function hide(element) {
     element.style.display = "none"
 }
 
+function setTime() {
+    var timerInterval = setInterval(function() {
+        timeLeft--;
+        timeEl.textContent = timeLeft + " seconds until quiz closes."
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert("Sorry, the time alotted for this quiz has ended.");
+            hide(questionEl);
+            hide(answer1El);
+            hide(answer2El);
+            hide(answer3El);
+            hide(answer4El);
+            hide(timeEl);
+            show(startQuiz);
+            
+        }
+    }, 1000);
+}
+
 answerButtons.forEach(function (ansBtn) {
     ansBtn.addEventListener("click", function (event) {
         var userGuess = event.target.textContent
@@ -77,17 +113,30 @@ answerButtons.forEach(function (ansBtn) {
             console.log("You got it right")
             currentIndex++
             displayQuestion()
-        } else {
-            console.log("WROOOOONG")
+        } else if (timeLeft <=0) {
+            hide(".question");
+            show("#start");
+            return displayQuestion();
+        }{
+            timeLeft = timeLeft - 10;
         }
     })
 })
 
 startQuiz.addEventListener("click", function(event) {
+    timeLeft = 120;
     displayQuestion();
-    hide(event.target)
+    hide(event.target);
+    setTime();
+    show(questionEl);
+    show(answer1El);
+    show(answer2El);
+    show(answer3El);
+    show(answer4El);
+    show(timeEl);
 })
 
 
 
-console.log(answer1El);
+
+console.log(questionsArray[5]);
