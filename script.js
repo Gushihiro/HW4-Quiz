@@ -55,27 +55,12 @@ var answer3El = document.querySelector(".answer3");
 var answer4El = document.querySelector(".answer4");
 var answerButtons = document.querySelectorAll(".answer")
 
-
-
-
 function displayQuestion() {
     questionEl.textContent = questionsArray[currentIndex].question
     answer1El.textContent = questionsArray[currentIndex].answer1
     answer2El.textContent = questionsArray[currentIndex].answer2
     answer3El.textContent = questionsArray[currentIndex].answer3
     answer4El.textContent = questionsArray[currentIndex].answer4
-
-    if (questionsArray[currentIndex] === 4 && userGuess === questionsArray[currentIndex].correctAnswer) {
-        alert("Congratulations, you got every question right!");
-        clearInterval(timerInterval);
-        hide(questionEl);
-        hide(answer1El);
-        hide(answer2El);
-        hide(answer3El);
-        hide(answer4El);
-        hide(timeEl);
-        currentIndex = 0;
-    }
 }
 
 function show(element) {
@@ -106,18 +91,24 @@ function setTime() {
     }, 1000);
 }
 
-answerButtons.forEach(function (ansBtn) {
-    ansBtn.addEventListener("click", function (event) {
+
+for i = 0, i < questionsArray.length, i++ {
+    answerButtons.addEventListener("click", function (event) {
         var userGuess = event.target.textContent
             if (userGuess === questionsArray[currentIndex].correctAnswer) {
             console.log("You got it right")
             currentIndex++
             displayQuestion()
-        } else if (timeLeft <=0) {
+        } else if (timeLeft <=0 || !userGuess) {
             hide(".question");
             show("#start");
+            currentIndex = 0;
             return displayQuestion();
-        }{
+        } else if (userGuess == undefined) {
+            
+        }
+        
+          else {
             timeLeft = timeLeft - 10;
         }
     })
