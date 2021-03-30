@@ -7,13 +7,25 @@ header {
     margin:80px;
 }
 
+section {
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    margin:40px;
+}
 .question {
+    display:none;
     display:flex;
     flex-direction: column;
     margin:0 auto;
     width:60%;
     justify-content: center;
     align-items: center;
+}
+
+.answer {
+    margin:20px;
 }
 
 .second {
