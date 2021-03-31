@@ -4,6 +4,7 @@ var timeEl = document.querySelector("#time");
 var timeLeft = 120;
 
 var highScore = JSON.parse(window.localStorage.getItem("Score"))
+
 console.log(highScore)
     if (!highScore) {
         console.log("setting high score")
@@ -149,7 +150,7 @@ for (i = 0; i < answerButtons.length; i++) {
         }
         
         else {
-            console.log("WRONG")
+            alert("WRONG")
             timeLeft = timeLeft - 10;
         }
         
