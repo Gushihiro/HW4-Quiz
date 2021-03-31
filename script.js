@@ -3,7 +3,12 @@ var startQuiz = document.querySelector("#start");
 var timeEl = document.querySelector("#time");
 var timeLeft = 120;
 
-
+var highScore = JSON.parse(window.localStorage.getItem("Score"))
+console.log(highScore)
+    if (!highScore) {
+        console.log("setting high score")
+        highScore = [];
+    }
 var questionsArray = [
     {
        question: "What is the first summon you obtain in Final Fantasy X?", 
@@ -47,6 +52,8 @@ var questionsArray = [
     }
 ]
 
+
+
 var currentIndex = 0;
 var questionEl = document.querySelector(".question");
 var answer1El = document.querySelector(".answer1");
@@ -55,7 +62,7 @@ var answer3El = document.querySelector(".answer3");
 var answer4El = document.querySelector(".answer4");
 var answerButtons = document.querySelectorAll(".answer")
 
-function displayQuestion() {
+function displayQuestion(i) {
     questionEl.textContent = questionsArray[currentIndex].question
     answer1El.textContent = questionsArray[currentIndex].answer1
     answer2El.textContent = questionsArray[currentIndex].answer2
@@ -86,33 +93,11 @@ function setTime() {
             hide(answer4El);
             hide(timeEl);
             show(startQuiz);
-            
+            currentIndex = 0;
         }
     }, 1000);
 }
 
-
-for i = 0, i < questionsArray.length, i++ {
-    answerButtons.addEventListener("click", function (event) {
-        var userGuess = event.target.textContent
-            if (userGuess === questionsArray[currentIndex].correctAnswer) {
-            console.log("You got it right")
-            currentIndex++
-            displayQuestion()
-        } else if (timeLeft <=0 || !userGuess) {
-            hide(".question");
-            show("#start");
-            currentIndex = 0;
-            return displayQuestion();
-        } else if (userGuess == undefined) {
-            
-        }
-        
-          else {
-            timeLeft = timeLeft - 10;
-        }
-    })
-})
 
 startQuiz.addEventListener("click", function(event) {
     timeLeft = 120;
@@ -125,9 +110,51 @@ startQuiz.addEventListener("click", function(event) {
     show(answer3El);
     show(answer4El);
     show(timeEl);
-})
+}),
+console.log(answerButtons)
+    
+
+
+for (i = 0; i < answerButtons.length; i++) {
+    answerButtons[i].addEventListener("click", function (event) {
+        var userGuess = event.target.textContent
+        
+        if (userGuess === questionsArray[currentIndex].correctAnswer) {
+            console.log("You got it right")
+            console.log(userGuess)
+            if (currentIndex >= 4) {
+                alert("Congratulations you've completed the quiz.")
+                var hiName = prompt("Whatchoname")
+                console.log(hiName)
+                if (highScore.length < 10) {
+                    highScore.push([hiName, timeLeft])
+                    console.table(highScore)
+                    console.log(highScore)
+            
+                    window.localStorage.setItem("Score", JSON.stringify(highScore))
+                    
+                    var deletef = confirm("Clear High Score?");
+                    if (deletef) {
+                        window.localStorage.clear();
+                    }
+                }
+            }
+            else {
+                currentIndex++
+                console.log(questionsArray[currentIndex].question)
+                displayQuestion()
+            }
+            
+            
+        }
+        
+        else {
+            console.log("WRONG")
+            timeLeft = timeLeft - 10;
+        }
+        
+
+})}
 
 
 
-
-console.log(questionsArray[5]);
